@@ -12,9 +12,9 @@ services:
       --sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_PASSWORD=root
-      - MYSQL_USER=root
-      - MYSQL_DATABASE=koinz
+      - MYSQL_PASSWORD=moonshot
+      - MYSQL_USER=moonshot
+      - MYSQL_DATABASE=moonshot
     networks:
       - koinz-network
     restart: always

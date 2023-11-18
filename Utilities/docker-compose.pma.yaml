@@ -2,8 +2,8 @@ version: '3.9'
 services:
   pma:
     image: phpmyadmin/phpmyadmin
-    container_name: aqarmap-pma
-    hostname: aqarmap-pma
+    container_name: koinz-pma
+    hostname: koinz-pma
     networks:
       - koinz-network
     volumes:
