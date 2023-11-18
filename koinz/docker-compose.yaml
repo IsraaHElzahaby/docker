@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  koinz:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      args:
+        CONTAINER_USER: ${CONTAINER_USER:?err}
+        CONTAINER_USER_ID: ${CONTAINER_USER_ID:?err}
+    container_name: koinz
+    hostname: koinz
+    ports:
+      - 9000:80
+    networks:
+      aqarmap-network:
+          aliases:
+            - ${PROJECT_VIRTUAL_HOST}
+    restart: always
+    labels:
+       - "traefik.enable=true"
+       - "traefik.http.routers.aqarmap-fe.rule=Host(`koinz.local`)"
+       - "traefik.http.routers.aqarmap-fe.entrypoints=web"
+     
+    environment:
+      - COMPOSER_MEMORY_LIMIT=-1
+    volumes:
+      - ${PROJECT_LOCAL_WORKING_DIR}:/var/www/html
+      - ./PHP/.composer:/home/${CONTAINER_USER}/.composer
+networks:
+  aqarmap-network:
+    external: true
+    name: ${NETWORK_NAME}

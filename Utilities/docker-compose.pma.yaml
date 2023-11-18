@@ -1,0 +1,23 @@
+version: '3.9'
+services:
+  pma:
+    image: phpmyadmin/phpmyadmin
+    container_name: aqarmap-pma
+    hostname: aqarmap-pma
+    networks:
+      - koinz-network
+    volumes:
+      - ./pma/config.user.inc.php:/etc/phpmyadmin/config.user.inc.php
+    environment:
+      - PMA_HOSTS=${PMA_DB_HOSTS}
+      - VIRTUAL_HOST=${PMA_VIRTUAL_HOST}
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pma.rule=Host(`pma.koinz.local`)"
+      - "traefik.http.routers.pma.entrypoints=web"
+    ports:
+        - 12344:80
+networks:
+  koinz-network:
+    external: true
+    name: ${NETWORK_NAME}

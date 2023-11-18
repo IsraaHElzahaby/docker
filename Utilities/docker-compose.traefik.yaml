@@ -1,0 +1,32 @@
+version: '3.9'
+services:
+  traefik:
+    image: "traefik:v2.9.8"
+    environment:
+      - TRAEFIK_ENTRYPOINTS_WEB=web
+      - TRAEFIK_ENTRYPOINTS_WEB_ADDRESS=:80
+      - TRAEFIK_API_INSECURE=true
+      - TRAEFIK_PROVIDERS_DOCKER=true
+      - TRAEFIK_LOG_LEVEL=INFO
+      - TRAEFIK_ACCESSLOG=true
+      - TRAEFIK_TRACING=true
+    ports:
+      - "80:80"
+      - "8080:8080"
+    networks:
+      - koinz-network
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    restart: always
+
+networks:
+  koinz-network:
+    name: ${NETWORK_NAME}
+    ipam:
+      driver: default
+  proxy-network:
+    name: ${PROXY_NETWORK_NAME}
+    ipam:
+      driver: default
+      config:
+        - subnet: ${PROXY_SUBNET}
